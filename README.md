@@ -1,12 +1,18 @@
-# Nebula Forge AI
+# Nebula Forge AI SaaS
 
-科技感 AI 设计图片 SaaS 官网与工作台（无紫色视觉）。
+## 功能完成度
+- 官网营销页 + 控制台
+- JWT 注册登录（Postgres）
+- 项目管理 + 团队协作
+- GPT-Image-2 生成与历史记录
+- Stripe 订阅：Checkout、Webhook 自动升降级、计费门户
+- 团队席位限制（按 plan 限制项目成员）
 
-## 功能
-- 官网落地页
-- 用户注册/登录（前端演示态）
-- 订阅升级（Free/Pro/Team）
-- 工作台集成 `gpt-image-2` 文生图
+## Stripe 订阅流程
+1. 前端调用 `/api/billing/checkout` 获取 Checkout URL。
+2. Stripe 回调 `/api/billing/webhook`。
+3. Webhook 根据 `price_id` 更新 `subscriptions` 并同步用户 `plan`。
+4. 控制台可通过 `/api/billing/portal` 进入计费门户。
 
 ## 启动
 ```bash
@@ -14,5 +20,3 @@ npm install
 cp .env.example .env.local
 npm run dev
 ```
-
-访问 `http://localhost:3000`。
