@@ -55,7 +55,7 @@ export default function WorkspacePage() {
           <article className="card" style={{ padding: 20 }}>
             <h3>账号中心</h3>
             <p>{user.email}</p>
-            <p style={{ color: "var(--muted)" }>当前订阅：{user.plan.toUpperCase()}</p>
+            <p style={{ color: "var(--muted)" }}>当前订阅：{user.plan.toUpperCase()}</p>
             <div style={{ display: "flex", gap: 8 }}>
               <button className="btn btn-secondary" onClick={() => subscribe("pro")}>升级 PRO</button>
               <button className="btn btn-secondary" onClick={() => subscribe("team")}>升级 TEAM</button>

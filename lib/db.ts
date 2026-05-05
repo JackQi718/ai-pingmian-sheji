@@ -33,8 +33,7 @@ export async function initDb() {
       id SERIAL PRIMARY KEY,
       owner_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       name TEXT NOT NULL,
-      created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-      stripe_customer_id TEXT UNIQUE
+      created_at TIMESTAMP NOT NULL DEFAULT NOW()
     );
     CREATE TABLE IF NOT EXISTS project_members (
       project_id INT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
@@ -48,8 +47,7 @@ export async function initDb() {
       user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       prompt TEXT NOT NULL,
       image_data TEXT NOT NULL,
-      created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-      stripe_customer_id TEXT UNIQUE
+      created_at TIMESTAMP NOT NULL DEFAULT NOW()
     );
   `);
 }
