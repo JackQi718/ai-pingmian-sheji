@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 
+const PRO_PRICE_ID = process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO || "price_pro_placeholder";
+const TEAM_PRICE_ID = process.env.NEXT_PUBLIC_STRIPE_PRICE_TEAM || "price_team_placeholder";
+
 type User = { id: number; email: string; plan: string };
 type Project = { id: number; name: string; created_at: string };
 type Img = { id: number; prompt: string; image_data: string; created_at: string };
@@ -45,6 +48,18 @@ export default function Dashboard() {
     await loadProjects();
   };
 
+  const checkout = async (priceId: string) => {
+    const res = await fetch("/api/billing/checkout", { method: "POST", body: JSON.stringify({ priceId }) });
+    const data = await res.json();
+    if (data.url) window.location.href = data.url;
+  };
+
+  const openPortal = async () => {
+    const res = await fetch("/api/billing/portal", { method: "POST" });
+    const data = await res.json();
+    if (data.url) window.location.href = data.url;
+  };
+
   const generate = async () => {
     if (!activeProject) return;
     await fetch(`/api/projects/${activeProject}/images`, { method: "POST", body: JSON.stringify({ prompt }) });
@@ -67,6 +82,11 @@ export default function Dashboard() {
   return (
     <main className="container" style={{ padding: "24px 0" }}>
       <h2>控制台 · {user.email} · {user.plan.toUpperCase()}</h2>
+      <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+        <button className="btn btn-secondary" onClick={() => checkout(PRO_PRICE_ID)}>升级 PRO</button>
+        <button className="btn btn-secondary" onClick={() => checkout(TEAM_PRICE_ID)}>升级 TEAM</button>
+        <button className="btn btn-primary" onClick={openPortal}>计费门户</button>
+      </div>
       <section className="grid" style={{ gridTemplateColumns: "280px 1fr" }}>
         <aside className="card" style={{ padding: 12 }}>
           <button className="btn btn-primary" onClick={createProject}>新建项目</button>
